@@ -1,0 +1,151 @@
+SomeWMULife Language - Technical Documentation
+
+1. Introduction
+The SomeWMULife programming language is a simple, statically-typed language designed for educational purposes. 
+It includes features like variables, control structures, and basic I/O operations.
+Key Features
+Lexical Analysis: Tokenizes source code into meaningful tokens.
+Syntax Analysis: Builds an Abstract Syntax Tree (AST) from tokens.
+Semantic Analysis: Validates program structure and types.
+Interpreter: Executes the parsed program.
+
+2. Project Structure
+some-wmu-life/
+├── src/                    # Source code
+│   ├── lexer.py           # Lexical analyzer
+│   ├── parser.py          # Parser
+│   ├── ast.py             # Abstract Syntax Tree nodes
+│   ├── semantic.py        # Semantic analyzer
+│   └── interpreter.py     # Interpreter
+│
+├── examples/              # Example programs
+│   ├── 01_arithmetic.wm
+│   ├── 02_control_flow.wm
+│   └── 03_functions.wm
+│
+├── tests/                 # Unit tests
+│   ├── test_lexer.py
+│   └── test_parser.py
+│
+├── README.md              # Project documentation
+└── requirements.txt       # Dependencies
+
+3. Lexical Analysis
+The lexer (
+lexer.py
+) converts source code into tokens.
+
+Token Types
+Keywords: PROGRAM, VAR, INTEGER, BEGIN, END, etc.
+Identifiers: Variable and function names.
+Literals: Numbers, strings, and booleans.
+Operators: +, -, *, /, =, <>, etc.
+Delimiters: ;, ,, :, (, ), etc. *
+Example
+pascal
+PROGRAM Hello;
+BEGIN
+    WRITE('Hello, World!');
+END.
+Tokens:
+
+[PROGRAM, ID(Hello), SEMI, BEGIN, WRITE, LPAREN, STRING('Hello, World!'), RPAREN, SEMI, END, DOT]
+4. Syntax Analysis
+The parser (
+parser.py
+) builds an Abstract Syntax Tree (AST) from tokens.
+
+Grammar Rules
+ebnf
+program     = PROGRAM ID SEMI block DOT
+block       = declarations compound_statement
+declarations = (VAR (variable_declaration SEMI)+)?
+statement   = assignment | if_statement | while_statement | ...
+AST Example
+For the code x := 10 + 5;, the AST looks like:
+
+python
+Assign(
+    left=Var('x'),
+    op=Token(':=', 'ASSIGN'),
+    right=BinOp(
+        left=Num(10),
+        op=Token('+', 'PLUS'),
+        right=Num(5)
+    )
+)
+5. Semantic Analysis
+The semantic analyzer (semantic.py) checks for:
+
+Variable Declarations: Ensures variables are declared before use.
+Type Checking: Validates operations (e.g., no adding strings to integers).
+Scope Resolution: Manages variable scopes.
+Example Error
+pascal
+VAR x: INTEGER;
+BEGIN
+    x := "hello";  // Error: Type mismatch (expected INTEGER, got STRING)
+END.
+6. Interpreter
+The interpreter (
+interpreter.py
+) executes the AST.
+
+Execution Flow
+Visit Nodes: Traverse the AST.
+Evaluate Expressions: Compute values (e.g., 10 + 5 → 15).
+Execute Statements: Perform assignments, loops, and conditionals.
+Example
+pascal
+PROGRAM Add;
+VAR x, y: INTEGER;
+BEGIN
+    x := 10;
+    y := 20;
+    WRITE(x + y);  // Output: 30
+END.
+7. Example Programs
+7.1 Arithmetic
+pascal
+PROGRAM Arithmetic;
+VAR x, y: INTEGER;
+BEGIN
+    x := 10;
+    y := 20;
+    WRITE(x + y * 2);  // Output: 50
+END.
+7.2 Control Flow
+pascal
+PROGRAM ControlFlow;
+VAR x: INTEGER;
+BEGIN
+    x := 5;
+    IF x > 0 THEN
+        WRITE('Positive');
+    ELSE
+        WRITE('Non-positive');
+    END;
+END.
+8. Error Handling
+Lexical Errors: Invalid tokens (e.g., @).
+Syntax Errors: Missing semicolons, unmatched parentheses.
+Semantic Errors: Type mismatches, undeclared variables.
+Example Error Message
+Error at line 4, column 10: Undeclared variable 'y'
+9. Testing
+Run tests with:
+
+bash
+python -m pytest tests/
+Test Cases
+Lexer Tests: Tokenization of keywords, numbers, and symbols.
+Parser Tests: Valid and invalid syntax.
+Interpreter Tests: Program execution and output.
+10. Future Enhancements
+Functions: Add support for user-defined functions.
+Arrays: Implement static arrays.
+Standard Library: Add built-in functions (e.g., SQRT, LENGTH).
+Optimizations: Constant folding, dead code elimination.
+Conclusion
+This document provides a high-level overview of the SomeWMULife language implementation. For detailed code, refer to the source files in the 
+src/directory.
