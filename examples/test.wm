@@ -1,0 +1,4 @@
+PROGRAM Test;
+BEGIN
+    WRITE('Hello, World!');
+END.

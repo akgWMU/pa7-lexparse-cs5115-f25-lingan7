@@ -1,58 +1,63 @@
-from enum import Enum, auto
+from enum import Enum
 from typing import List, Optional, Union
 
-class TokenType(Enum):    # Keywords
-    PROGRAM = auto()
-    VAR = auto()
-    INTEGER = auto()
-    FLOAT = auto()
-    ARRAY = auto()
-    OF = auto()
-    BEGIN = auto()
-    END = auto()
-    IF = auto()
-    THEN = auto()
-    ELSE = auto()
-    WHILE = auto()
-    DO = auto()
-    READ = auto()
-    WRITE = auto()
-    AND = auto()
-    OR = auto()
-    NOT = auto()
+class TokenType(Enum):
+    # Keywords
+    PROGRAM = 1
+    VAR = 2
+    INTEGER = 3
+    FLOAT = 4
+    ARRAY = 5
+    OF = 6
+    BEGIN = 7
+    END = 8
+    IF = 9
+    THEN = 10
+    ELSE = 11
+    WHILE = 12
+    DO = 13
+    READ = 14
+    WRITE = 15
+    AND = 16
+    OR = 17
+    NOT = 18
     
     # Operators
-    PLUS = '+'
-    MINUS = '-'
-    MULTIPLY = '*'
-    DIVIDE = '/'
-    ASSIGN = ':='
-    EQUAL = '='
-    NOT_EQUAL = '<>'
-    LESS = '<'
-    LESS_EQUAL = '<='
-    GREATER = '>'
-    GREATER_EQUAL = '>='
+    PLUS = 19
+    MINUS = 20
+    MULTIPLY = 21
+    DIVIDE = 22
+    MOD = 23
+    ASSIGN = 24
+    EQUAL = 25
+    NOT_EQUAL = 26
+    LESS = 27
+    LESS_EQUAL = 28
+    GREATER = 29
+    GREATER_EQUAL = 30
     
     # Delimiters
-    SEMI = ';'
-    COMMA = ','
-    COLON = ':'
-    DOT = '.'
-    LPAREN = '('
-    RPAREN = ')'
-    LBRACK = '['
-    RBRACK = ']'
-    DOTDOT = '..'
+    SEMI = 31
+    COMMA = 31
+    COLON = 32
+    DOT = 33
+    LPAREN = 34
+    RPAREN = 35
+    LBRACK = 36
+    RBRACK = 38
+    DOTDOT = 39
     
     # Literals
-    ID = auto()
-    INT_CONST = auto()
-    FLOAT_CONST = auto()
-    STRING = auto()
+    ID = 40
+    INT_CONST = 41
+    FLOAT_CONST = 42
+    STRING = 43
     
     # Special
-    EOF = auto()
+    EOF = 44
+    
+    def __str__(self):
+        return self.name
 
 class Token:
     def __init__(self, type: TokenType, value: Union[str, int, float] = None, line: int = 0, column: int = 0):
@@ -222,6 +227,14 @@ class Lexer:
                 self.advance()
                 self.advance()
                 return Token(TokenType.ASSIGN, ':=', self.line, self.column - 1)
+            
+            if self.current_char == '/':
+                self.advance()
+                return Token(TokenType.DIVIDE, '/', self.line, self.column - 1)
+            
+            if self.current_char == '%':
+                self.advance()
+                return Token(TokenType.MOD, '%', self.line, self.column - 1)
             
             if self.current_char == '<' and self.peek() == '>':
                 self.advance()

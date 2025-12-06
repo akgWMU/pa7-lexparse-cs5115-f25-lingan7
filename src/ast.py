@@ -12,8 +12,8 @@ class Type(Enum):
 class ASTNode:
     """Base class for all AST nodes."""
     token: Any
-    line: int = 0
-    column: int = 0
+    line: int
+    column: int
 
 @dataclass
 class Program(ASTNode):
@@ -120,6 +120,16 @@ class Read(ASTNode):
 @dataclass
 class Write(ASTNode):
     """Represents a WRITE statement."""
+    expr: ASTNode
+
+@dataclass
+class FloatCast(ASTNode):
+    """Represents a type conversion to float."""
+    expr: ASTNode
+
+@dataclass
+class IntCast(ASTNode):
+    """Represents a type conversion to int."""
     expr: ASTNode
 
 class NodeVisitor:

@@ -1,0 +1,5 @@
+PROGRAM SimpleTest;
+BEGIN
+    WRITE('Hello, World!');
+    WRITE(2 + 2);
+END.

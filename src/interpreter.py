@@ -154,11 +154,17 @@ class Interpreter(NodeVisitor):
             self.error('Unexpected end of input', node.token)
     
     def visit_Write(self, node: Write):
-        if isinstance(node.expr, String):
-            print(node.expr.value, end='')
-        else:
-            value = self.visit(node.expr)
-            print(value, end='')
+        try:
+            if isinstance(node.expr, String):
+                print(node.expr.value, end='', flush=True)
+            else:
+                value = self.visit(node.expr)
+                print(str(value), end='', flush=True)
+            # Add a space after each WRITE to separate outputs
+            print(' ', end='', flush=True)
+        except Exception as e:
+            self.error(f'Error in WRITE statement: {str(e)}', node.token)
+        return None
 
 def interpret(ast: ASTNode):
     interpreter = Interpreter()

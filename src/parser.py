@@ -360,16 +360,18 @@ class Parser:
         return node
     
     def mul_expr(self) -> ASTNode:
-        """mul_expr : factor ((MULTIPLY | DIVIDE) factor)*"""
+        """mul_expr : factor ((MULTIPLY | DIVIDE | MOD) factor)*"""
         node = self.factor()
         
-        while self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE):
+        while self.current_token.type in (TokenType.MULTIPLY, TokenType.DIVIDE, TokenType.MOD):
             token = self.current_token
             
             if token.type == TokenType.MULTIPLY:
                 self.eat(TokenType.MULTIPLY)
             elif token.type == TokenType.DIVIDE:
                 self.eat(TokenType.DIVIDE)
+            elif token.type == TokenType.MOD:
+                self.eat(TokenType.MOD)
             
             node = BinOp(left=node, op=token, right=self.factor())
         
@@ -381,8 +383,10 @@ class Parser:
               | MINUS factor
               | NOT factor
               | INTEGER_CONST
-              | REAL_CONST
+              | FLOAT_CONST
               | LPAREN expr RPAREN
+              | FLOAT LPAREN expr RPAREN
+              | INT LPAREN expr RPAREN
               | variable
         """
         token = self.current_token
@@ -398,15 +402,27 @@ class Parser:
             return UnaryOp(token, self.factor())
         elif token.type == TokenType.INT_CONST:
             self.eat(TokenType.INT_CONST)
-            return Num(token, token.value, Type.INTEGER)
+            return Num(token, token.value)
         elif token.type == TokenType.FLOAT_CONST:
             self.eat(TokenType.FLOAT_CONST)
-            return Num(token, token.value, Type.FLOAT)
+            return Num(token, token.value)
         elif token.type == TokenType.LPAREN:
             self.eat(TokenType.LPAREN)
             node = self.expr()
             self.eat(TokenType.RPAREN)
             return node
+        elif token.type == TokenType.ID and token.value.upper() == 'FLOAT':
+            self.eat(TokenType.ID)
+            self.eat(TokenType.LPAREN)
+            expr = self.expr()
+            self.eat(TokenType.RPAREN)
+            return FloatCast(token, expr)
+        elif token.type == TokenType.ID and token.value.upper() == 'INT':
+            self.eat(TokenType.ID)
+            self.eat(TokenType.LPAREN)
+            expr = self.expr()
+            self.eat(TokenType.RPAREN)
+            return IntCast(token, expr)
         else:
             return self.variable()
     

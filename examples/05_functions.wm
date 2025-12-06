@@ -1,0 +1,118 @@
+PROGRAM Functions;
+
+{ Function to calculate factorial }
+FUNCTION factorial(n: INTEGER): INTEGER;
+VAR
+    result, i: INTEGER;
+BEGIN
+    result := 1;
+    i := 1;
+    WHILE i <= n DO
+        result := result * i;
+        i := i + 1;
+    END;
+    RETURN result;
+END;
+
+{ Function to check if a number is prime }
+FUNCTION is_prime(n: INTEGER): INTEGER;
+VAR
+    i: INTEGER;
+BEGIN
+    IF n <= 1 THEN
+        RETURN 0;
+    END;
+    
+    i := 2;
+    WHILE i * i <= n DO
+        IF n MOD i = 0 THEN
+            RETURN 0;
+        END;
+        i := i + 1;
+    END;
+    
+    RETURN 1;
+END;
+
+{ Function to find maximum in an array }
+FUNCTION find_max(arr: ARRAY[1..5] OF INTEGER): INTEGER;
+VAR
+    i, max_val: INTEGER;
+BEGIN
+    max_val := arr[1];
+    i := 2;
+    WHILE i <= 5 DO
+        IF arr[i] > max_val THEN
+            max_val := arr[i];
+        END;
+        i := i + 1;
+    END;
+    RETURN max_val;
+END;
+
+{ Main program }
+VAR
+    num, result: INTEGER;
+    numbers: ARRAY[1..5] OF INTEGER;
+    i: INTEGER;
+BEGIN
+    { Test factorial function }
+    WRITE('Enter a number to calculate factorial: ');
+    READ(num);
+    result := factorial(num);
+    WRITE('Factorial of ');
+    WRITE(num);
+    WRITE(' is ');
+    WRITE(result);
+    WRITE('\n\n');
+    
+    { Test prime number checker }
+    WRITE('Enter a number to check if it\'s prime: ');
+    READ(num);
+    IF is_prime(num) = 1 THEN
+        WRITE(num);
+        WRITE(' is a prime number.\n\n');
+    ELSE
+        WRITE(num);
+        WRITE(' is not a prime number.\n\n');
+    END;
+    
+    { Test array maximum function }
+    WRITE('Enter 5 numbers to find the maximum:\n');
+    i := 1;
+    WHILE i <= 5 DO
+        WRITE('Number ');
+        WRITE(i);
+        WRITE(': ');
+        READ(numbers[i]);
+        i := i + 1;
+    END;
+    
+    result := find_max(numbers);
+    WRITE('The maximum number is: ');
+    WRITE(result);
+    WRITE('\n');
+    
+    { Nested function calls }
+    WRITE('\nNested function call - factorial of 5 is: ');
+    WRITE(factorial(5));
+    WRITE('\n');
+    
+    WRITE('Is 17 prime? ');
+    IF is_prime(17) = 1 THEN
+        WRITE('Yes\n');
+    ELSE
+        WRITE('No\n');
+    END;
+    
+    WRITE('\nAll prime numbers up to 20: ');
+    i := 2;
+    WHILE i <= 20 DO
+        IF is_prime(i) = 1 THEN
+            WRITE(i);
+            WRITE(' ');
+        END;
+        i := i + 1;
+    END;
+    WRITE('\n');
+END.

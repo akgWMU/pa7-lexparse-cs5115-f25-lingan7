@@ -1,0 +1,63 @@
+PROGRAM ArrayOperations;
+VAR
+    i, j, temp: INTEGER;
+    numbers: ARRAY[1..5] OF INTEGER;
+    matrix: ARRAY[1..3, 1..3] OF INTEGER;
+BEGIN
+    WRITE('Initializing array: ');
+    i := 1;
+    WHILE i <= 5 DO
+        numbers[i] := i * 2;
+        WRITE(numbers[i]);
+        WRITE(' ');
+        i := i + 1;
+    END;
+    WRITE('\n');
+    
+    WRITE('Reversed array: ');
+    i := 1;
+    j := 5;
+    WHILE i < j DO
+        temp := numbers[i];
+        numbers[i] := numbers[j];
+        numbers[j] := temp;
+        i := i + 1;
+        j := j - 1;
+    END;
+    
+    i := 1;
+    WHILE i <= 5 DO
+        WRITE(numbers[i]);
+        WRITE(' ');
+        i := i + 1;
+    END;
+    WRITE('\n');
+    
+    WRITE('2D Matrix:\n');
+    i := 1;
+    WHILE i <= 3 DO
+        j := 1;
+        WHILE j <= 3 DO
+            matrix[i,j] := i * 10 + j;
+            WRITE(matrix[i,j]);
+            WRITE(' ');
+            j := j + 1;
+        END;
+        WRITE('\n');
+        i := i + 1;
+    END;
+    
+    WRITE('\nSum of matrix elements: ');
+    sum := 0;
+    i := 1;
+    WHILE i <= 3 DO
+        j := 1;
+        WHILE j <= 3 DO
+            sum := sum + matrix[i,j];
+            j := j + 1;
+        END;
+        i := i + 1;
+    END;
+    WRITE(sum);
+    WRITE('\n');
+END.

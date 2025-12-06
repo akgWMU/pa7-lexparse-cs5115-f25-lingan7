@@ -1,0 +1,36 @@
+PROGRAM Arithmetic;
+VAR
+    x, y, z: INTEGER;
+    a, b, c: FLOAT;
+BEGIN
+    x := 10;
+    y := 3;
+    z := x + y * 2;  
+    WRITE('10 + 3 * 2 = ');
+    WRITE(z);
+    WRITE('\n');
+    
+    z := (x + y) * 2;
+    WRITE('(10 + 3) * 2 = ');
+    WRITE(z);
+    WRITE('\n');
+    
+    a := 5.5;
+    b := 2.0;
+    c := a / b;
+    WRITE('5.5 / 2.0 = ');
+    WRITE(c);
+    WRITE('\n');
+    
+    z := x MOD y;
+    WRITE('10 MOD 3 = ');
+    WRITE(z);
+    WRITE('\n');
+    
+    WRITE('10 > 3: ');
+    IF x > y THEN
+        WRITE('True\n');
+    ELSE
+        WRITE('False\n');
+    END
+END.

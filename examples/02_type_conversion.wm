@@ -1,0 +1,34 @@
+PROGRAM TypeConversion;
+VAR
+    x: INTEGER;
+    y: FLOAT;
+    z: FLOAT;
+BEGIN
+    x := 5;
+    y := 3.14;
+    
+    WRITE('Integer to float: ');
+    z := FLOAT(x);
+    WRITE(z);
+    WRITE('\n');
+    
+    WRITE('Float to int: ');
+    x := INT(y);
+    WRITE(x);
+    WRITE('\n');
+    
+    WRITE('Mixed-type arithmetic (int + float): ');
+    z := x + y;  
+    WRITE(z);
+    WRITE('\n');
+    
+    WRITE('Float division with ints (5 / 2): ');
+    z := FLOAT(5) / 2;
+    WRITE(z);
+    WRITE('\n');
+    
+    WRITE('Integer division with FLOAT() (5 / 2): ');
+    z := 5 / 2;
+    WRITE(z);
+    WRITE('\n');
+END.

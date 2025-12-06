@@ -1,0 +1,49 @@
+PROGRAM ControlFlow;
+VAR
+    i, n, sum: INTEGER;
+    fact: INTEGER;
+    is_prime: INTEGER;
+    j: INTEGER;
+BEGIN
+    WRITE('Sum of first 5 natural numbers: ');
+    sum := 0;
+    i := 1;
+    WHILE i <= 5 DO
+        sum := sum + i;
+        i := i + 1;
+    END;
+    WRITE(sum);
+    WRITE('\n');
+    
+    WRITE('Factorial of 5: ');
+    fact := 1;
+    n := 5;
+    i := 1;
+    WHILE i <= n DO
+        fact := fact * i;
+        i := i + 1;
+    END;
+    WRITE(fact);
+    WRITE('\n');
+    
+    WRITE('Prime numbers up to 20: ');
+    n := 2;
+    WHILE n <= 20 DO
+        is_prime := 1;  
+        j := 2;
+        WHILE j * j <= n DO
+            IF n MOD j = 0 THEN
+                is_prime := 0;
+            END;
+            j := j + 1;
+        END;
+        
+        IF (is_prime = 1) AND (n > 1) THEN
+            WRITE(n);
+            WRITE(' ');
+        END;
+        
+        n := n + 1;
+    END;
+    WRITE('\n');
+END.
